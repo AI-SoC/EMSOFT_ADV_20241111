@@ -34,7 +34,7 @@ flash:
 	openocd -f C:\OpenOCD-20211118-0.11.0\share\openocd\scripts\board\stm32f429disc1.cfg -c "program out.elf verify reset exit"	
 
 gdb:
-	run_gdb.bat
+	./run_gdb.sh
 
 clean:
 	rm *.o *.d *.elf *.bin *.map
