@@ -25,7 +25,7 @@ size: out.elf
 	$(SIZE) $< 
 
 qemu: 
-	qemu-system-gnuarmeclipse -cpu cortex-m4 -machine STM32F4-Discovery -gdb tcp::3333 -kernel out.elf
+	~/xpack-qemu-arm-7.2.0-1/bin/qemu-system-gnuarmeclipse -cpu cortex-m4 -machine STM32F4-Discovery -gdb tcp::3333 -kernel out.elf
 
 ocd:
 	openocd -f C:\OpenOCD-20211118-0.11.0\share\openocd\scripts\board\stm32f429disc1.cfg	
