@@ -17,7 +17,7 @@ main.o: main.c
 
 main.exe: main.o hyundai.o
 # linking (multi objs -> executable )
-	gcc main.o hyundai.o  -o main.exe 
+	gcc main.o hyundai.o  -o main
 
 all: main
 	./main
