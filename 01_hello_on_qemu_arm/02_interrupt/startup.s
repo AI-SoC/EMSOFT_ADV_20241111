@@ -120,7 +120,7 @@ g_pfnVectors:
 	.word	0
 	.word	0
 	.word	0
-	.word	0
+	.word	EXTI0_IRQHandler
 	.word	0
 	.word	0
 	.word	0

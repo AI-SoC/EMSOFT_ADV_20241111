@@ -25,10 +25,16 @@ size: out.elf
 	$(SIZE) $< 
 
 qemu: 
-	/home/jskwon/Work/qemu-arm-dev/linux-x64/install/qemu-arm/bin/qemu-system-gnuarmeclipse -cpu cortex-m4 -machine STM32F4-Discovery -gdb tcp::3333 -kernel out.elf
+	qemu-system-gnuarmeclipse -cpu cortex-m4 -machine STM32F4-Discovery -gdb tcp::3333 -kernel out.elf
+
+ocd:
+	openocd -f C:\OpenOCD-20211118-0.11.0\share\openocd\scripts\board\stm32f429disc1.cfg	
+
+flash:
+	openocd -f C:\OpenOCD-20211118-0.11.0\share\openocd\scripts\board\stm32f429disc1.cfg -c "program out.elf verify reset exit"	
 
 gdb:
-	./run_gdb.sh
+	run_gdb.bat
 
 clean:
 	rm *.o *.d *.elf *.bin *.map

@@ -16,6 +16,7 @@ typedef volatile struct{
      unsigned int reserved9;
      unsigned int reserved10;
      unsigned int rRCC_APB1ENR;
+     unsigned int rRCC_APB2ENR;
 }tREG_RCC;
 
 typedef volatile struct{
@@ -142,6 +143,18 @@ typedef volatile struct{
 #define GPIOD_ODR		(GPIOD->rODR) 
 #define GPIOD_AFRL		(GPIOD->rAFRL) 
 #define GPIOD_AFRH		(GPIOD->rAFRH)  
+
+// GPIO G //
+#define GPIOG_BASE 0x40021800
+#define GPIOG ((REG_GPIO*)GPIOG_BASE)
+
+#define GPIOG_MODER		(GPIOG->rMODER) 
+#define GPIOG_OTYPER  	(GPIOG->rOTYPER)
+#define GPIOG_OSPEEDR 	(GPIOG->rOSPEEDR) 
+#define GPIOG_PUPDR  	(GPIOG->rPUPDR)
+#define GPIOG_ODR		(GPIOG->rODR) 
+#define GPIOG_AFRL		(GPIOG->rAFRL) 
+#define GPIOG_AFRH		(GPIOG->rAFRH)  
 
 // USART 2 //
 #define USART2_BASE 0x40004400

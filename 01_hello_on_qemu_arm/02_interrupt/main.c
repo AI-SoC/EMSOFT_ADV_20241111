@@ -21,15 +21,26 @@ void clk(void)
 	
 	FLASH_ACR |= 5;
 	RCC_CFGR |= 2; // set PLL to system clock
-		
+	
 	while( (RCC_CFGR & (12) ) != 8); // wait until PLL ready
 	
 	RCC_CFGR |= (1<<12) | (1<<10); // set APB1 div 4
 	RCC_CFGR |= (1<<15); // set APB2 div2	
 }
 
-int main (void) {
-	
+void EXTI0_IRQHandler() {
+    volatile int a = 2;
+
+    //GPIOD_ODR ^= 1 << 13;
+    GPIOG_ODR ^= 1 << 13;
+    GPIOG_ODR ^= 1 << 14;
+    GPIOG_ODR ^= 1 << 15;
+
+    EXTI_PR |= 1<<0;    // clear pending bit for EXTI0
+}
+
+int main (void)
+{
 	clk();
 	
 	RCC_CFGR |= 0x04600000;
@@ -40,22 +51,29 @@ int main (void) {
     GPIOA_OTYPER |= 0<<0; // output push-pull
     GPIOA_PUPDR  |= 0<<0; // no pull-up, pull-down
 
-	/* PORT D */
-	RCC_AHB1ENR  |= 1<<3;		// PORTD enable
-	GPIOD_MODER  |= 1<<24;		// PORTD 12 general output mode
-	GPIOD_MODER  |= 1<<26;		// PORTD 13 general output mode
-	GPIOD_MODER  |= 1<<28;		// PORTD 14 general output mode
-	GPIOD_MODER  |= 1<<30;		// PORTD 15 general output mode
-	GPIOD_OTYPER |= 0x00000000;
-	GPIOD_PUPDR	 |= 0x00000000;
+    /* button intr set */
+    SYSCFG_EXTICR1  |= 0<<0; // EXTI0 connect to PA0
+    EXTI_IMR        |= 1<<0; // Mask EXTI0
+    EXTI_RTSR       |= 1<<0; // rising edge trigger enable
+    EXTI_FTSR       |= 0<<0; // falling edge trigger disable
+    NVIC_ISER0      |= 1<<6; // enable EXTI0 interrupt
 	
-	GPIOD_ODR |= 1<<12;
+	/* PORT D */
+	RCC_AHB1ENR  |= 1<<6;		// PORTD enable
+	GPIOG_MODER  |= 1<<24;		// PORTD 12 general output mode
+	GPIOG_MODER  |= 1<<26;		// PORTD 13 general output mode
+	GPIOG_MODER  |= 1<<28;		// PORTD 14 general output mode
+	GPIOG_MODER  |= 1<<30;		// PORTD 15 general output mode
+	GPIOG_OTYPER |= 0x00000000;
+	GPIOG_PUPDR	 |= 0x00000000;
+	
+	GPIOG_ODR |= 1<<12;
 
 	while(1) {
-        if( GPIOA_IDR & 0x00000001 ) {
-            GPIOD_ODR ^= 1 << 13;
-            GPIOD_ODR ^= 1 << 14;
-            GPIOD_ODR ^= 1 << 15;
-        }
+//        if( GPIOA_IDR & 0x00000001 ) {
+//            GPIOD_ODR ^= 1 << 13;
+//            GPIOD_ODR ^= 1 << 14;
+//            GPIOD_ODR ^= 1 << 15;
+//        }
 	}
 }
