@@ -15,7 +15,7 @@ main.o: main.c
 # assembling only (asm -> obj)
 	as     main.s -o main.o
 
-main.exe: main.o hyundai.o
+main: main.o hyundai.o
 # linking (multi objs -> executable )
 	gcc main.o hyundai.o  -o main
 
