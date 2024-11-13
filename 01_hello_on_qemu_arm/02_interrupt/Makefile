@@ -24,17 +24,15 @@ out.bin: out.elf
 size: out.elf
 	$(SIZE) $< 
 
-qemu: 
-	~/xpack-qemu-arm-7.2.0-1/bin/qemu-system-gnuarmeclipse -cpu cortex-m4 -machine STM32F4-Discovery -gdb tcp::3333 -kernel out.elf
-
-ocd:
-	openocd -f C:\OpenOCD-20211118-0.11.0\share\openocd\scripts\board\stm32f429disc1.cfg	
-
-flash:
-	openocd -f C:\OpenOCD-20211118-0.11.0\share\openocd\scripts\board\stm32f429disc1.cfg -c "program out.elf verify reset exit"	
+qemu: 	
+	qemu-system-gnuarmeclipse -cpu cortex-m4 -machine STM32F4-Discovery -gdb tcp::3333 -kernel out.elf
 
 gdb:
+ifeq ($(OS),Windows_NT) 
+	run_gdb.bat
+else
 	./run_gdb.sh
+endif
 
 clean:
 	rm *.o *.d *.elf *.bin *.map
